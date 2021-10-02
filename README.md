@@ -10,3 +10,5 @@ The script HDF5 is a set of functions just to store the networks created before 
 All functions are for the sole purpose of file handling (creation, storage, branch handling, deletion, reading, etc.)
 
 The main script contains functions to iterate through Epoch cycles. When called, EpochPlots delivers a plot representing Epoch vs performance for 10 different networks (Each with its own input, hidden and outer layer properties).
+
+Refer to "Epoch iterations.png" for final results.
