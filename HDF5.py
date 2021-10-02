@@ -39,6 +39,9 @@ def OpenF (project_dir, file_name):
     return (file)
 
 def LoadNetwork (project_dir, file_name, grp):
+    """
+    Function to fetch a particular network from the file directory set.
+    """
     file = hdf.File(project_dir + file_name, 'r')
     OutputNodes = file[grp]['OutputNodes'][0]
     HiddenNodes = file[grp]['HiddenNodes'][0]
@@ -69,6 +72,9 @@ def LoadN (file, grp):
     return(net)
 
 def ReturnN_Networks(project_dir, file_name):
+    """
+    Function to return number of networks in a given file directory set.
+    """
     file = hdf.File(project_dir + file_name, 'r')
     Ngrps = 0
     for grp in file:
@@ -83,6 +89,9 @@ def ReturnN_Net(file):
     return (Ngrps)
 
 def SaveNetwork(project_dir, file_name, net):
+    """
+    Function to save network "net" in a given file directory set.
+    """
     i = ReturnN_Networks(project_dir, file_name)
     file = hdf.File(project_dir + file_name, 'r+')
     Newgrp = file.create_group(str(i+1))
@@ -116,6 +125,9 @@ def SaveN(file, net, grp = None):
     Newgrp.create_dataset('who', data = numpy.array(net.who, ndmin = 1))   
 
 def DeleteNetwork (project_dir, file_name, grp):
+    """
+    Function to delete a network from a given file directory set.
+    """
     i = ReturnN_Networks(project_dir, file_name)
     if (int(grp) < i+1):
         file = hdf.File(project_dir + file_name, 'r+')

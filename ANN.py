@@ -51,6 +51,11 @@ class network:
         
 
 def TrainNetwork(file_name, net, prog = True):
+    """
+    Trains the network "net" based on a training set given by "file_name". 
+    If prog = True, function prints progress during training for runtime 
+    debugging purposes
+    """
     file = open(file_name,'r')
     i, j = 0, 0
     filesize = file.seek(0,2)
@@ -78,6 +83,10 @@ def CloseFile (file):
     file.close()
 
 def GetNumber (file_name):
+    """
+    Returns number of values in a training/test set given by file "file_name".
+    Allows for flexibility when using other files.
+    """
     file = open(file_name,'r')
     i, j = 0, 0
     filesize = file.seek(0,2)
@@ -90,6 +99,10 @@ def GetNumber (file_name):
     return (j)
 
 def GetNumberFast (file):
+    """
+    A faster version of GetNumber. Does not close the file and allows for
+    faster training speeds
+    """
     i = 0
     readpositions = []
     filesize = file.seek(0,2)
@@ -101,6 +114,11 @@ def GetNumberFast (file):
     return (readpositions)
 
 def GetData (instance, file_name, Datatype = 'FP', normalize = True):
+    """
+    Function to extract one particular instance from a training/test set. 
+    Options like Datatype and normalize allows user to choose whether the
+    console should display the image and/or view normalized/raw data 
+    """
     file_size = GetNumber(file_name)
     if ((instance < 0) and (instance > file_size)):
         print("Instance does no exist")
@@ -131,6 +149,10 @@ def GetData (instance, file_name, Datatype = 'FP', normalize = True):
         return (input_data, output_data)
    
 def GetDataFast (readpos, file):
+    """
+    A faster version of GetData. Does not close the file and allows for
+    faster evaluation speeds
+    """
     file.seek(readpos)
     data = file.readline()
     data = data.split(',')
@@ -139,6 +161,10 @@ def GetDataFast (readpos, file):
     return (input_data, output_data)    
 
 def GenerateCustomImageData(image_file_name):
+    """
+    Creates a normalized pixel grid ready for back/forward propagation from an
+    input image given by "image_file_name".
+    """
     #write in red over blue BG
     img = cv2.imread(image_file_name)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -150,6 +176,11 @@ def GenerateCustomImageData(image_file_name):
     return(gray)
 
 def FeedCustomImageData(custom_image_dir, number, instance, net):
+    """
+    Forward Propagates an input image given by "instance" within a 
+    "custom_image_dir" and compares it to the expected numerical value 
+    "number" using the network "net"
+    """
     path = custom_image_dir + "\\" + str(number) + "\\" + str(instance) + ".png"
     gray = GenerateCustomImageData(path)
     input_data = (numpy.asfarray(gray)/255*0.99)+0.01
@@ -160,6 +191,11 @@ def FeedCustomImageData(custom_image_dir, number, instance, net):
 #open and close file
 
 def GetPerformance(file_name, net, prog = True):
+    """
+    Gets the performance of a network using the test set given by file 
+    "file_name". If prog = True, the console prints the progress of the 
+    performance test.
+    """
     file = OpenFile(file_name)
     readpositions = GetNumberFast(file)
     results = []

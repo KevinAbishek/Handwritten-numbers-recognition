@@ -5,9 +5,6 @@ Created on Wed Feb 10 12:55:38 2021
 @author: hp
 """
 
-"""
-Test change
-"""
 from ANN import network, TrainNetwork, GetPerformance
 from HDF5 import SaveN, CreateNF, CloseF, OpenF, LoadN, DeleteN, ReturnN_Net
 
@@ -30,6 +27,9 @@ Epoch10_file_name = r'\NNmem_E10.hdf5'
 
 Eit = [memory_file_name, Epoch2_file_name, Epoch3_file_name, Epoch4_file_name, Epoch5_file_name, Epoch6_file_name, Epoch7_file_name, Epoch8_file_name, Epoch9_file_name, Epoch10_file_name]
 
+"""
+ANN structure and learning rate
+"""
 inodes = 28*28
 onodes = 10
 hnodes = 100
@@ -37,6 +37,9 @@ learnrate = 0.1
 
 
 def CreateAndStoreRandomNetworks (Nitems):
+    """
+    Creates "Nitems" number of  networks, trains them and stores them in a file
+    """
     file = CreateNF (project_dir, memory_file_name)
     i = 0
     for i in range(0,Nitems):
@@ -51,6 +54,11 @@ def CreateAndStoreRandomNetworks (Nitems):
 
 
 def IncrementEpoch(mem_filename_1, mem_filename_2):
+    """
+    Takes all networks from "mem_filename_1" file and trains them using
+    the MNIST training dataset one more time. Function then stores the network
+    in "mem_filename_2".
+    """
     file2 = CreateNF (project_dir, mem_filename_2)
     file1 = OpenF(project_dir, mem_filename_1)
     Nnet1 = ReturnN_Net(file1)
@@ -66,11 +74,17 @@ def IncrementEpoch(mem_filename_1, mem_filename_2):
     CloseF (file2)
         
 def ProduceEpochIterations (nit):
+    """
+    Performs IncrementEpoch for "nit" number of cycles.
+    """
     for i in range(0, nit-1):
         IncrementEpoch(Eit[i], Eit[i+1])
         
 
 def EpochPlots (files, grp):
+    """
+    Function to plot Performance vs. Epoch for all networks
+    """
     Pvals = []
     for i in files:
         f = OpenF (project_dir, i)
